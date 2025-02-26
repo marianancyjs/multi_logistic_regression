@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logistic Regression Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            width: 60%;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            font-size: 16px;
+            color: #555;
+        }
+        select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Logistic Regression Model Prediction</h1>
+        
+        <!-- Form to capture the activity and group data -->
+        <form action="/predict" method="POST">
+            <label for="activity">Activity:</label>
+            <select id="activity" name="Activity" required>
+                <option value="Reading" {% if activity == 'Reading' %}selected{% endif %}>Reading</option>
+                <option value="Watching" {% if activity == 'Watching' %}selected{% endif %}>Watching</option>
+                <option value="Listening" {% if activity == 'Listening' %}selected{% endif %}>Listening</option>
+            </select>
+            <br><br>
+            
+            <label for="group">Group:</label>
+            <select id="group" name="Group" required>
+                <option value="Group A" {% if group == 'Group A' %}selected{% endif %}>Group A</option>
+                <option value="Group B" {% if group == 'Group B' %}selected{% endif %}>Group B</option>
+            </select>
+            <br><br>
+            
+            <button type="submit">Submit</button>
+        </form>
+
+        <!-- Display prediction result if available -->
+        {% if prob_class_0 is not none and prob_class_1 is not none %}
+            <div class="result">
+                <h2>Prediction Result:</h2>
+                <p>Probability of class 0: {{ prob_class_0 }}</p>
+                <p>Probability of class 1: {{ prob_class_1 }}</p>
+            </div>
+        {% endif %}
+        
+        <!-- Display error message if available -->
+        {% if error %}
+            <div class="error">
+                <h2>Error:</h2>
+                <p>{{ error }}</p>
+            </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>
